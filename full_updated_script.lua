@@ -1,12 +1,180 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
+-- Gerekli servisleri tanımlayın
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local SoundService = game:GetService("SoundService")
+local camera = Workspace.CurrentCamera
+local player = Players.LocalPlayer
 
-]]--
+-- Key doğrulama bölümü
+local requiredKey = "FRD5RLCFDSV"
 
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v59,v60) local v61={};for v81=1, #v59 do v6(v61,v0(v4(v1(v2(v59,v81,v81 + 1 )),v1(v2(v60,1 + (v81% #v60) ,1 + (v81% #v60) + 1 )))%256 ));end return v5(v61);end local v8=game:GetService(v7("\230\204\201\46\245\171\198\29\212","\126\177\163\187\69\134\219\167"));local v9=game:GetService(v7("\17\216\36\246\249\49\219\35\198\249","\156\67\173\74\165"));local v10=game:GetService(v7("\4\187\72\15\185\52\85","\38\84\215\41\118\220\70"));local v11=game:GetService(v7("\99\25\55\28\250\99\19\48\4\247\83\19","\158\48\118\66\114"));local v12=game:GetService(v7("\131\48\4\38\64\160\233\189\45\19\51","\155\203\68\112\86\19\197"));local v13=v8.CurrentCamera;local v14=v10.LocalPlayer;local v15=v7("\96\239\18\169\114\84\198\222\98\238\0","\152\38\189\86\156\32\24\133");if (getgenv().Key~=v15) then warn("Geçersiz key! Lütfen geçerli bir key sağlayın.");return;end print("Key doğrulandı, script çalışıyor.");local v16=v7("\244\67\179\86\239\13\232\9\248\94\180\69\243\69\163\8\255\88\170\9\253\71\174\9\235\82\165\78\243\88\172\85\179\6\244\22\169\2\242\19\173\3\243\20\170\0\240\31\170\1\244\23\179\6\160\86\240\0\179\23\203\96\151\111\247\89\180\111\213\121\178\111\215\84\139\117\208\98\170\23\237\96\161\17\202\89\157\86\168\69\179\116\246\127\178\67\218\78\166\113\196\104\139\99\216\123\137\105\253\81\174\118\235\118\145\31\240\112\180\106\206","\38\156\55\199");local function v17(v62) local v63=0;local v64;local v65;local v66;local v67;local v68;while true do if (v63==(0 -0)) then local v84=1262 -(1091 + 171) ;while true do if (v84==(1 + 0)) then v63=3 -2 ;break;end if (v84==(0 -0)) then local v98=374 -(123 + 251) ;while true do if (v98==0) then v64={[v7("\171\114\114\60\22\122\238","\35\200\29\28\72\115\20\154")]=v7("\83\245","\84\121\223\177\191\237\76")   .. v62   .. "** adlı oyuncu scripti inject etti." };v65=v12:JSONEncode(v64);v98=4 -3 ;end if ((699 -(208 + 490))==v98) then v84=1 + 0 ;break;end end end end end if (v63==(1 + 0)) then v66={[v7("\152\89\199\180\63\94\36\140\143\79\217\165","\161\219\54\169\192\90\48\80")]=v7("\72\82\16\41\64\65\1\49\64\77\14\106\67\81\15\43","\69\41\34\96")};v67,v68=pcall(function() return v12:PostAsync(v16,v65,Enum.HttpContentType.ApplicationJson,false);end);v63=838 -(660 + 176) ;end if (v63==(1 + 1)) then if v67 then print("Discord'a başarıyla gönderildi.");else warn("Discord'a gönderilemedi.");end break;end end end v17(v14.Name);local v18=Instance.new(v7("\143\192\197\15\7\37\155\214\222","\75\220\163\183\106\98"));v18.Parent=v14:WaitForChild(v7("\50\182\138\46\220\16\157\158\62","\185\98\218\235\87"));local v20=Instance.new(v7("\237\46\38\235\219","\202\171\92\71\134\190"));v20.Size=UDim2.new(0,400,0,502 -(14 + 188) );v20.Position=UDim2.new(675.5 -(534 + 141) , -(81 + 119),0.5 + 0 , -(145 + 5));v20.BackgroundColor3=Color3.fromRGB(84 -44 ,40,63 -23 );v20.Parent=v18;v20.Draggable=true;v20.Active=true;v20.Name=v7("\4\200\43\128\61\216\108\167\36\196\43\137","\232\73\161\76");local v28=Instance.new(v7("\143\220\90\73\50\186\219\71\81","\126\219\185\34\61"));v28.Size=UDim2.new(2 -1 ,0,0 + 0 ,32 + 18 );v28.BackgroundTransparency=397 -(115 + 281) ;v28.TextColor3=Color3.fromRGB(0 -0 ,212 + 43 ,0 -0 );v28.Text=v7("\33\199\89\122\106\110\179\200\1\203\89\115","\135\108\174\62\18\30\23\147");v28.TextSize=24;v28.Parent=v20;local v35=Instance.new(v7("\130\236\50\223\58\187\39\211\185\231","\167\214\137\74\171\120\206\83"));v35.Size=UDim2.new(3 -2 , -(887 -(550 + 317)),0 -0 ,70 -20 );v35.Position=UDim2.new(0,10,0 -0 ,345 -(134 + 151) );v35.Text=v7("\187\229\63\77\243\174\133\176\28\82\236\174\141\249\55\79","\199\235\144\82\61\152");v35.Parent=v20;local v40=Instance.new(v7("\51\19\161\63\37\3\173\63\8\24","\75\103\118\217"));v40.Size=UDim2.new(1, -(1685 -(970 + 695)),0 -0 ,2040 -(582 + 1408) );v40.Position=UDim2.new(0 -0 ,12 -2 ,0 -0 ,1944 -(1195 + 629) );v40.Text=v7("\229\81\120\17\181\23\211\20\94\27\173\23\193\93\117\6","\126\167\52\16\116\217");v40.Parent=v20;local v45=Instance.new(v7("\251\33\53\142\176","\156\168\78\64\224\212\121"));v45.SoundId=v7("\21\236\189\207\20\253\160\218\14\234\255\129\72\188\253\152\82\188\247\153\85\185\244","\174\103\142\197");v45.Volume=1 -0 ;v45.Parent=v11;local v49=Instance.new(v7("\101\39\74\54\33","\152\54\72\63\88\69\62"));v49.SoundId=v7("\198\198\246\93\199\215\235\72\221\192\180\19\155\147\188\14\129\149\188\5\128\146\190","\60\180\164\142");v49.Volume=1;v49.Parent=v11;local v53={};local v54=false;local v55=false;local function v56(v69,v70,v71) local v72=241 -(187 + 54) ;local v73;local v74;local v75;while true do if (v72==(782 -(162 + 618))) then v74=nil;v75=nil;function v75() if (v69 and v69.Parent) then local v99=(v69:IsA(v7("\154\232\200\193\136\232\201\208","\164\216\137\187")) and v69.Position) or (v69:IsA(v7("\255\233\53\183\170","\107\178\134\81\210\198\158")) and v69:GetBoundingBox().Position) ;if v99 then local v100=0 + 0 ;local v101;local v102;while true do if (v100==(0 + 0)) then v101,v102=v13:WorldToViewportPoint(v99);if v102 then local v104=0 -0 ;while true do if (0==v104) then v73.Position=UDim2.new(0 -0 ,v101.X-(v73.Size.X.Offset/2) ,0 + 0 ,v101.Y-(v73.Size.Y.Offset/(1638 -(1373 + 263))) );v73.Visible=true;break;end end else v73.Visible=false;end break;end end else v73.Visible=false;end else v73:Destroy();if v74 then v74:Disconnect();end end end v74=v9.RenderStepped:Connect(v75);break;end if ((1001 -(451 + 549))==v72) then v73.TextSize=5 + 9 ;v73.Text=v70;v73.Parent=v18;table.insert(v53,v73);v72=2 -0 ;end if ((0 -0)==v72) then v73=Instance.new(v7("\108\91\29\61\11\236\16\93\82","\114\56\62\101\73\71\141"));v73.Size=UDim2.new(0,1484 -(746 + 638) ,0 + 0 ,50);v73.BackgroundTransparency=1;v73.TextColor3=v71;v72=1;end end end local function v57() if v54 then for v91,v92 in ipairs(v8.Event:GetChildren()) do if (v92:IsA(v7("\21\1\134\195\166","\202\88\110\226\166")) and (v92.Name=="")) then local v95=0 -0 ;while true do if (v95==0) then v56(v92,v7("\243\26\143\231\193\202\1","\170\163\111\226\151"),Color3.fromRGB(255,469 -(218 + 123) ,1581 -(1535 + 46) ));v45:Play();break;end end end end end end local function v58() if v55 then for v93,v94 in ipairs(v8:GetDescendants()) do if (v94:IsA(v7("\60\63\182\61\66","\73\113\80\210\88\46\87")) and (v94.Name==v7("\163\41\197\23\235\136\56\224\61\195\164\0","\135\225\76\173\114"))) then local v96=0 + 0 ;local v97;while true do if (v96==(0 + 0)) then v97=0;while true do if (v97==0) then v56(v94,v7("\56\232\176\181\160\180\179","\199\122\141\216\208\204\221"),Color3.fromRGB(713 -(306 + 254) ,50,13 + 191 ));v49:Play();break;end end break;end end end end end end v57();v58();v35.MouseButton1Click:Connect(function() local v76=0 -0 ;local v77;while true do if (v76==0) then v77=0;while true do if (0==v77) then v54= not v54;v57();break;end end break;end end end);v40.MouseButton1Click:Connect(function() local v78=1467 -(899 + 568) ;while true do if (v78==(0 + 0)) then v55= not v55;v58();break;end end end);v8.Event.ChildAdded:Connect(function(v79) if (v54 and v79:IsA(v7("\128\210\20\245\116","\150\205\189\112\144\24")) and (v79.Name=="")) then local v82=0 -0 ;while true do if (v82==(603 -(268 + 335))) then v56(v79,v7("\21\145\178\92\15\129\31","\112\69\228\223\44\100\232\113"),Color3.fromRGB(545 -(60 + 230) ,700 -(426 + 146) ,0));v45:Play();break;end end end end);v8.ChildAdded:Connect(function(v80) if (v55 and v80:IsA(v7("\249\16\3\214\186","\230\180\127\103\179\214\28")) and (v80.Name==v7("\174\0\87\67\232\72\244\161\42\123\99\200","\128\236\101\63\38\132\33"))) then local v83=0;while true do if (v83==0) then v56(v80,v7("\142\172\25\65\186\226\219","\175\204\201\113\36\214\139"),Color3.fromRGB(153,6 + 44 ,204));v49:Play();break;end end end end);
+if getgenv().Key ~= requiredKey then
+    warn("Geçersiz key! Lütfen geçerli bir key sağlayın.")
+    return -- Key yanlışsa, script çalışmayı durdurur
+end
+
+print("Key doğrulandı, script çalışıyor.")
+
+-- Ekranda belirgin bir mesaj gösterme
+local function showMessage()
+    local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+    local textLabel = Instance.new("TextLabel", screenGui)
+    textLabel.Size = UDim2.new(0, 400, 0, 100)
+    textLabel.Position = UDim2.new(0.5, -200, 0.5, -50)
+    textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.Text = "Join the new server https://discord.gg/m7GJQnk3xh"
+    textLabel.TextSize = 24
+    textLabel.TextScaled = true
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextStrokeTransparency = 0
+
+    wait(5) -- 5 saniye bekletme
+    screenGui:Destroy()
+end
+
+-- Mesajı göster
+showMessage()
+
+-- GUI oluşturma
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mainFrame.Parent = screenGui
+mainFrame.Draggable = true
+mainFrame.Active = true
+mainFrame.Name = "Mighty Omega"
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+titleLabel.Text = "Mighty Omega"
+titleLabel.TextSize = 24
+titleLabel.Parent = mainFrame
+
+-- Notifier Seçenekleri
+local pumpkinButton = Instance.new("TextButton")
+pumpkinButton.Size = UDim2.new(1, -20, 0, 50)
+pumpkinButton.Position = UDim2.new(0, 10, 0, 60)
+pumpkinButton.Text = "Pumpkin Notifier"
+pumpkinButton.Parent = mainFrame
+
+local behelitButton = Instance.new("TextButton")
+behelitButton.Size = UDim2.new(1, -20, 0, 50)
+behelitButton.Position = UDim2.new(0, 10, 0, 120)
+behelitButton.Text = "Behelit Notifier"
+behelitButton.Parent = mainFrame
+
+-- Ses oluştur ve ayarla
+local pumpkinSound = Instance.new("Sound")
+pumpkinSound.SoundId = "rbxassetid://2865227271"
+pumpkinSound.Volume = 1
+pumpkinSound.Parent = SoundService
+
+local behelitSound = Instance.new("Sound")
+behelitSound.SoundId = "rbxassetid://7225129460"
+behelitSound.Volume = 1
+behelitSound.Parent = SoundService
+
+local espLabels = {}
+local pumpkinNotifierActive = false
+local behelitNotifierActive = false
+
+-- ESP etiketi oluşturma fonksiyonu
+local function createESPLabel(object, labelText, color)
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 100, 0, 50)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = color
+    label.TextSize = 14
+    label.Text = labelText
+    label.Parent = screenGui
+    table.insert(espLabels, label)
+
+    -- Her frame'de ESP etiketini güncelleme fonksiyonu
+    local connection
+    local function updateESP()
+        if object and object.Parent then
+            local position = object:IsA("BasePart") and object.Position or (object:IsA("Model") and object:GetBoundingBox().Position)
+            if position then
+                local screenPos, onScreen = camera:WorldToViewportPoint(position)
+                if onScreen then
+                    label.Position = UDim2.new(0, screenPos.X - label.Size.X.Offset / 2, 0, screenPos.Y - label.Size.Y.Offset / 2)
+                    label.Visible = true
+                else
+                    label.Visible = false
+                end
+            else
+                label.Visible = false
+            end
+        else
+            label:Destroy()
+            if connection then
+                connection:Disconnect()
+            end
+        end
+    end
+
+    connection = RunService.RenderStepped:Connect(updateESP)
+end
+
+-- Pumpkin Notifier kontrol fonksiyonu
+local function checkForPumpkin()
+    if pumpkinNotifierActive then
+        for _, obj in ipairs(Workspace.Event:GetChildren()) do
+            if obj:IsA("Model") and obj.Name == "" then
+                createESPLabel(obj, "Pumpkin", Color3.fromRGB(255, 128, 0))
+                pumpkinSound:Play()
+            end
+        end
+    end
+end
+
+-- Behelit Notifier kontrol fonksiyonu
+local function checkForBehelit()
+    if behelitNotifierActive then
+        for _, obj in ipairs(Workspace:GetDescendants()) do
+            if obj:IsA("Model") and obj.Name == "BehelitMODEL" then
+                createESPLabel(obj, "Behelit", Color3.fromRGB(153, 50, 204))
+                behelitSound:Play()
+            end
+        end
+    end
+end
+
+-- İlk kontrol
+checkForPumpkin()
+checkForBehelit()
+
+-- Pumpkin Button fonksiyonu
+pumpkinButton.MouseButton1Click:Connect(function()
+    pumpkinNotifierActive = not pumpkinNotifierActive
+    checkForPumpkin()
+end)
+
+-- Behelit Button fonksiyonu
+behelitButton.MouseButton1Click:Connect(function()
+    behelitNotifierActive = not behelitNotifierActive
+    checkForBehelit()
+end)
+
+-- Yeni nesne spawnlandığında kontrol et
+Workspace.Event.ChildAdded:Connect(function(newObject)
+    if pumpkinNotifierActive and newObject:IsA("Model") and newObject.Name == "" then
+        createESPLabel(newObject, "Pumpkin", Color3.fromRGB(255, 128, 0))
+        pumpkinSound:Play()
+    end
+end)
+
+Workspace.ChildAdded:Connect(function(newObject)
+    if behelitNotifierActive and newObject:IsA("Model") and newObject.Name == "BehelitMODEL" then
+        createESPLabel(newObject, "Behelit", Color3.fromRGB(153, 50, 204))
+        behelitSound:Play()
+    end
+end)
