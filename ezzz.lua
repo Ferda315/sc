@@ -119,177 +119,138 @@ submitButton.MouseButton1Click:Connect(function()
         player:Kick(kickMessage)
     end
 end)
-local ESPEnabled = false
-local maxDistance = 200 -- Maksimum mesafe (studs)
-local ESPFolder = Instance.new("Folder") -- ESP'lerin saklanacağı yer
-ESPFolder.Name = "ESPFolder"
-ESPFolder.Parent = game.CoreGui
 
--- Highlight nesnelerini takip etmek için bir tablo
-local highlights = {}
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+local Camera = game:GetService("Workspace").CurrentCamera
+local ESPEnabled = true -- ESP başlangıçta açık
+local MaxDistance = 200 -- 200 stud mesafe sınırı
 
--- Highlight Object Creation (highlightları tabloya ekliyoruz)
-local function CreateHighlight(Character)
-    local highlight = Instance.new("Highlight")
-    highlight.Adornee = Character
-    highlight.FillColor = Color3.fromRGB(255, 0, 0)
-    highlight.FillTransparency = 0.75 -- Daha az transparan
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-    highlight.OutlineTransparency = 0.5
-    highlight.Parent = Character
-
-    -- Highlight'ı tabloya ekle
-    table.insert(highlights, highlight)
-    return highlight
+local function DrawText()
+    local t = Drawing.new("Text")
+    t.Visible = false
+    t.Center = true
+    t.Outline = true
+    t.Size = 14
+    t.Color = Color3.fromRGB(255, 255, 255)
+    t.Transparency = 1
+    return t
 end
 
--- ESP oluşturma fonksiyonu
-local function createESP(player)
-    if player == game.Players.LocalPlayer then return end
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
-
-    -- Daha önce bu oyuncuya ESP oluşturulmuşsa sil
-    local existingESP = ESPFolder:FindFirstChild(player.Name)
-    if existingESP then
-        existingESP:Destroy()
-    end
-
-    -- Billboard GUI
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = player.Name
-    billboard.Adornee = player.Character.HumanoidRootPart
-    billboard.Size = UDim2.new(4, 0, 3, 0)
-    billboard.AlwaysOnTop = true
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.Parent = ESPFolder
-
-    -- Sağlık metni
-    local healthText = Instance.new("TextLabel", billboard)
-    healthText.Size = UDim2.new(1, 0, 0.4, 0)
-    healthText.Position = UDim2.new(0, 0, 0, 0)
-    healthText.BackgroundTransparency = 1
-    healthText.Font = Enum.Font.SourceSans
-    healthText.TextSize = 12
-    healthText.TextStrokeTransparency = 0.5
-    healthText.TextColor3 = Color3.new(1, 1, 1) -- Beyaz
-    healthText.Text = "Health: 0"
-
-    -- Takım ve mesafe etiketi
-    local teamLabel = Instance.new("TextLabel", billboard)
-    teamLabel.Size = UDim2.new(1, 0, 0.4, 0)
-    teamLabel.Position = UDim2.new(0, 0, 0.4, 0)
-    teamLabel.BackgroundTransparency = 1
-    teamLabel.Font = Enum.Font.SourceSans
-    teamLabel.TextSize = 12
-    teamLabel.TextStrokeTransparency = 0.5
-    teamLabel.TextColor3 = player.Team and player.Team.TeamColor.Color or Color3.new(1, 1, 1) -- Takım rengi veya beyaz
-    teamLabel.Text = player.Team and player.Team.Name or "No Team"
-
-    local studLabel = Instance.new("TextLabel", billboard)
-    studLabel.Size = UDim2.new(1, 0, 0.4, 0)
-    studLabel.Position = UDim2.new(0, 0, 0.8, 0)
-    studLabel.BackgroundTransparency = 1
-    studLabel.Font = Enum.Font.SourceSans
-    studLabel.TextSize = 12
-    studLabel.TextStrokeTransparency = 0.5
-    studLabel.TextColor3 = Color3.new(1, 1, 1) -- Beyaz
-    studLabel.Text = "Stud: 0"
-
-    -- Highlight Eklenmesi
-    local highlight = CreateHighlight(player.Character)
-
-    -- Güncelleme fonksiyonu
-    local function updateESP()
-        if player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart") then
-            local humanoid = player.Character.Humanoid
-            local rootPart = player.Character.HumanoidRootPart
-
-            -- Can metnini güncelle
-            healthText.Text = "Health: " .. math.floor(humanoid.Health)
-
-            -- Takım metnini güncelle
-            teamLabel.Text = player.Team and player.Team.Name or "No Team"
-
-            -- Mesafe metnini güncelle
-            local distance = (rootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-            studLabel.Text = "Stud: " .. math.floor(distance)
-
-            -- Takım rengini ayarla
-            teamLabel.TextColor3 = player.Team and player.Team.TeamColor.Color or Color3.new(1, 1, 1)
-        end
-    end
-
-    -- Mesafe kontrolü
-    local function checkDistance()
-        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            local distance = (player.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-            billboard.Enabled = distance <= maxDistance
-            highlight.Enabled = distance <= maxDistance
-        end
-    end
-
-    -- Sürekli güncelleme
-    local heartbeat
-    heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
-        if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
-            if billboard then
-                billboard:Destroy()
-            end
-            if highlight then
-                highlight:Destroy()
-            end
-            if heartbeat then
-                heartbeat:Disconnect()
-            end
-            return
-        else
-            updateESP()
-            checkDistance()
-        end
-    end)
-
-    -- return highlight for future toggle
-    return highlight
+local function DrawLine()
+    local l = Drawing.new("Line")
+    l.Visible = false
+    l.From = Vector2.new(0, 0)
+    l.To = Vector2.new(1, 1)
+    l.Color = Color3.fromRGB(255, 0, 0)
+    l.Thickness = 1
+    l.Transparency = 1
+    return l
 end
 
--- ESP açma/kapatma fonksiyonu
-local function toggleESP()
-    ESPEnabled = not ESPEnabled
-    if ESPEnabled then
-        -- Mevcut oyunculara ESP ekle
-        for _, player in pairs(game.Players:GetPlayers()) do
-            local highlight = createESP(player)
-            player.CharacterAdded:Connect(function()
-                task.wait(1)
-                local newHighlight = createESP(player)
-            end)
-        end
+local function DrawESP(plr)
+    repeat wait() until plr.Character ~= nil and plr.Character:FindFirstChild("Humanoid") ~= nil
+    local limbs = {}
+    local infoText = DrawText()
 
-        -- Yeni oyunculara ESP ekle
-        game.Players.PlayerAdded:Connect(function(player)
-            player.CharacterAdded:Connect(function()
-                task.wait(1)
-                createESP(player)
-            end)
+    local R15 = (plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+    if R15 then 
+        limbs = {
+            -- Spine
+            Head_UpperTorso = DrawLine(),
+            UpperTorso_LowerTorso = DrawLine(),
+            -- Left Arm
+            UpperTorso_LeftUpperArm = DrawLine(),
+            LeftUpperArm_LeftLowerArm = DrawLine(),
+            LeftLowerArm_LeftHand = DrawLine(),
+            -- Right Arm
+            UpperTorso_RightUpperArm = DrawLine(),
+            RightUpperArm_RightLowerArm = DrawLine(),
+            RightLowerArm_RightHand = DrawLine(),
+            -- Left Leg
+            LowerTorso_LeftUpperLeg = DrawLine(),
+            LeftUpperLeg_LeftLowerLeg = DrawLine(),
+            LeftLowerLeg_LeftFoot = DrawLine(),
+            -- Right Leg
+            LowerTorso_RightUpperLeg = DrawLine(),
+            RightUpperLeg_RightLowerLeg = DrawLine(),
+            RightLowerLeg_RightFoot = DrawLine(),
+        }
+    else 
+        limbs = {
+            Head_Spine = DrawLine(),
+            Spine = DrawLine(),
+            LeftArm = DrawLine(),
+            LeftArm_UpperTorso = DrawLine(),
+            RightArm = DrawLine(),
+            RightArm_UpperTorso = DrawLine(),
+            LeftLeg = DrawLine(),
+            LeftLeg_LowerTorso = DrawLine(),
+            RightLeg = DrawLine(),
+            RightLeg_LowerTorso = DrawLine()
+        }
+    end
+
+    local function Visibility(state)
+        for _, v in pairs(limbs) do
+            v.Visible = state
+        end
+        infoText.Visible = state
+    end
+
+    local function UpdateText(HUM)
+        local humanoid = plr.Character:FindFirstChild("Humanoid")
+        local team = plr.Team and plr.Team.Name or "No Team"
+        local distance = math.floor((Player.Character.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude)
+        infoText.Position = Vector2.new(HUM.X, HUM.Y - 70) -- Sağlık ve mesafe yazısını yukarıda göster
+
+        -- Sağlık ve mesafeyi alt alta göstermek, "Stud" yazmadan sadece mesafeyi göstermek
+        infoText.Text = string.format("%s\nHealth: %d\n[%d]", team, math.floor(humanoid.Health), distance)
+        infoText.Color = plr.TeamColor.Color -- Takımın rengini ayarla
+    end
+
+    local function Updater()
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if plr.Character ~= nil and plr.Character:FindFirstChild("Humanoid") ~= nil and plr.Character:FindFirstChild("HumanoidRootPart") ~= nil and plr.Character.Humanoid.Health > 0 then
+                local HUM, vis = Camera:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
+                local distance = (Player.Character.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+                if vis and distance <= MaxDistance and ESPEnabled then
+                    UpdateText(HUM)
+                    Visibility(true)
+                else
+                    Visibility(false)
+                end
+            else
+                Visibility(false)
+                if game.Players:FindFirstChild(plr.Name) == nil then 
+                    for _, v in pairs(limbs) do
+                        v:Remove()
+                    end
+                    infoText:Remove()
+                    connection:Disconnect()
+                end
+            end
         end)
-    else
-        -- Tüm ESP'leri ve Highlight'ları kaldır
-        ESPFolder:ClearAllChildren()
-        for _, highlight in ipairs(highlights) do
-            if highlight and highlight.Parent then
-                highlight:Destroy()
-            end
-        end
-        highlights = {} -- Tablonun içini temizle
+    end
+
+    coroutine.wrap(Updater)()
+end
+
+for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+    if v.Name ~= Player.Name then
+        DrawESP(v)
     end
 end
 
--- "END" tuşu ile ESP aç/kapa
-game:GetService("UserInputService").InputEnded:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.End then
-        toggleESP()
+game.Players.PlayerAdded:Connect(function(newplr)
+    if newplr.Name ~= Player.Name then
+        DrawESP(newplr)
     end
 end)
 
--- Script injectlendiğinde
-toggleESP() -- ESP'yi otomatik olarak aç
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.End then
+        ESPEnabled = not ESPEnabled
+    end
+end)
