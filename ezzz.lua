@@ -14,6 +14,9 @@ loopSound.Looped = true  -- Döngüye alınır
 loopSound.Volume = 1
 loopSound.Parent = game.Workspace
 
+-- Kullanıcı doğrulama flag
+local isWhitelisted = false
+
 -- GUI oluşturma
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
@@ -77,6 +80,7 @@ local timer = tick()
 
 -- GUI zamanlayıcı
 game:GetService("RunService").Heartbeat:Connect(function()
+    if isWhitelisted then return end -- Eğer doğrulanmışsa zamanlayıcıyı çalıştırma
     local elapsedTime = tick() - timer
     timeLeft = guiTimeLimit - math.floor(elapsedTime)
     timerLabel.Text = "Kalan Süre: " .. timeLeft
@@ -93,6 +97,7 @@ submitButton.MouseButton1Click:Connect(function()
     local playerName = textBox.Text
     if table.find(allowedNames, playerName) then
         -- Doğru isim girildi
+        isWhitelisted = true  -- Kullanıcı doğrulandı
         loopSound:Stop()  -- Döngü sesini durdur
         local correctSound = Instance.new("Sound")
         correctSound.SoundId = correctSoundID
