@@ -131,7 +131,7 @@ local function DrawText()
     t.Visible = false
     t.Center = true
     t.Outline = true
-    t.Size = 5
+    t.Size = 8
     t.Color = Color3.fromRGB(255, 255, 255)
     t.Transparency = 1
     return t
